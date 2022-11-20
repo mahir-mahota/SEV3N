@@ -5,11 +5,24 @@
 
 task main()
 {
+	bool startup = startAllTasks();
 
+	if(startup == true)
+	{
+		displayTextLine(5, "Startup successful");
+		wait1Msec(5000);
+		eraseDisplay();
+	}
 
-	bool end = endAllTasks(0,0);
+	//Initialize arrays
+	//readSheet();
+	//playNote();
 
-	if(end == true)
+	displayTextLine(4, "Song finished!");
+
+	bool shutdown = endAllTasks(0,0);
+
+	if(shutdown == true)
 	{
 		displayTextLine(5, "Shutdown successful");
 	}
