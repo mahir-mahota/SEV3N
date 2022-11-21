@@ -10,15 +10,17 @@ task main()
 	if(startup == true)
 	{
 		displayTextLine(5, "Startup successful");
-		wait1Msec(5000);
-		eraseDisplay();
 	}
 
-	//Initialize arrays
-	//readSheet();
-	//playNote();
+	int fret[] = {-1};
+	int timing[] = {-1};
 
-	displayTextLine(4, "Song finished!");
+	int const NOTE_COUNT = readSheet();
+	displayTextLine(5, "Song loaded");
+
+	playNote(fret, timing, NOTE_COUNT);
+
+	displayTextLine(5, "Song finished!");
 
 	bool shutdown = endAllTasks(0,0);
 
