@@ -18,7 +18,7 @@ task main()
 	int const NOTE_COUNT = readSheet();
 	displayTextLine(5, "Song loaded");
 
-	playNote(fret, timing, NOTE_COUNT);
+	playNotes(fret, timing, NOTE_COUNT);
 
 	displayTextLine(5, "Song finished!");
 
