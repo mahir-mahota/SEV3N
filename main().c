@@ -3,17 +3,24 @@
 #include "Iram.c"
 #include "Noah.c"
 
+const int STRUMMING_POWER = 20;
+const int FRET_SPEED = 20;
+const int TIME_UNIT = 500;
+const int COLOUR_PORT = S1;
+const int ULTRASONIC_PORT = S2;
+const int LENGTH = 100;
+
 task main()
 {
-	bool startup = startAllTasks();
+	bool startup = startAllTasks(ULTRASONIC_PORT, COLOUR_PORT);
 
-	if(startup == true)
+	if(startup)
 	{
 		displayTextLine(5, "Startup successful");
 	}
 
-	int fret[] = {-1};
-	int timing[] = {-1};
+	int fret[LENGTH] = {-1};
+	int timing[LENGTH] = {-1};
 
 	int const NOTE_COUNT = readSheet();
 	displayTextLine(5, "Song loaded");
@@ -24,7 +31,7 @@ task main()
 
 	bool shutdown = endAllTasks(0,0);
 
-	if(shutdown == true)
+	if(shutdown)
 	{
 		displayTextLine(5, "Shutdown successful");
 	}
