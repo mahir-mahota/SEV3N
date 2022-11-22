@@ -4,11 +4,13 @@
 #include "Noah.c"
 
 const int STRUMMING_POWER = 20;
-const int FRET_SPEED = 20;
+const int FRET_SPEED = -20;
 const int TIME_UNIT = 500;
 const int COLOUR_PORT = S1;
 const int ULTRASONIC_PORT = S2;
-const int LENGTH = 100;
+const int ARR_LENGTH = 100;
+const int FULL_ROTATION = 360;
+const int FRET_CLICKS = 30;
 
 task main()
 {
@@ -19,17 +21,17 @@ task main()
 		displayTextLine(5, "Startup successful");
 	}
 
-	int fret[LENGTH] = {-1};
-	int timing[LENGTH] = {-1};
+	int fret[ARR_LENGTH] = {-1};
+	int timing[ARR_LENGTH] = {-1};
 
 	int const NOTE_COUNT = readSheet();
 	displayTextLine(5, "Song loaded");
 
-	playNotes(fret, timing, NOTE_COUNT);
+	int direction = playNotes(fret, timing, NOTE_COUNT);
 
 	displayTextLine(5, "Song finished!");
 
-	bool shutdown = endAllTasks(0,0);
+	bool shutdown = endAllTasks(0,0, direction);
 
 	if(shutdown)
 	{
