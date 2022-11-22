@@ -1,6 +1,6 @@
-void pluck(int power, int direction)
+void pluck(int direction)
 {
-	motor[motorA] = direction * power;
+	motor[motorA] = direction * STRUMMING_POWER;
 
 	nMotorEncoder[motorA] = 0;
 
@@ -12,8 +12,8 @@ void pluck(int power, int direction)
 
 void setAndPlayFret(int fret, int direction)
 {
-	int clicksForFret = FRET_CLICKS(fret - 1);
-	int clicksToRotate = FULL_ROTATION - clicksBetweenFrets;
+	int clicksForFret = FRET_CLICKS * (fret - 1);
+	int clicksToRotate = FULL_ROTATION - clicksForFret;
 
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < clicksToRotate)
