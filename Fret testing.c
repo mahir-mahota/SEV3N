@@ -18,6 +18,12 @@ void pluck(int direction)
 	motor[motorA] = 0;
 }
 
+int cycleEncoderValue()
+{
+	int encoderValue = abs(nMotorEncoder[motorD]);
+	return encoderValue - encoderValue/FULL_ROTATION * FULL_ROTATION;
+}
+
 void setAndPlayFret(int fret, int time, int direction, int previous_fret)
 {
 	//int encoder = nMotorEncoder[D];
@@ -28,9 +34,9 @@ void setAndPlayFret(int fret, int time, int direction, int previous_fret)
 
 	time1[T1] = 0;
 	motor[motorD] = FRET_SPEED;
-	while(nMotorEncoder[motorD] - nMotorEncoder[motorD]/FULL_ROTATION * FULL_ROTATION > clicksForFret)
+	while(cycleEncoderValue() > clicksForFret)
 	{}
-	while(nMotorEncoder[motorD] - nMotorEncoder[motorD]/FULL_ROTATION * FULL_ROTATION < clicksForFret)
+	while(cycleEncoderValue() < clicksForFret)
 	{}
 
 	//while(abs(nMotorEncoder[motorD]) < abs(clicksToRotate))
