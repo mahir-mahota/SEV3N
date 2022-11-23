@@ -6,6 +6,24 @@ const int ULTRASONIC_PORT = S2;
 const int ARR_LENGTH = 100;
 const int FULL_ROTATION = 360;
 const int FRET_CLICKS = 30;
+const int COLOURPORT = S1;
+const int MOTORPORT = motorC;
+const int WAITCOLOUR = 1000;
+const int WAITWHITE = 50;
+const int MAXNOTES = 10;
+const int MOTORSPEED = -5;
+const int colourValues[8] =
+	{
+		0,////empty
+		0,//black
+		2,//blue
+		3,//green
+		5,//yellow
+		7,//red
+		0,//white
+		10//brown
+	};
+const int Remap[11] = {0,1,2,3,4,6,6,8,8,9,10}; //reverse of c++ code
 
 bool startAllTasks(int ultrasonic, int colour)
 {
@@ -53,7 +71,7 @@ void setAndPlayFret(int fret, int direction)
 	nMotorEncoder[motorD] = 0;
 }
 
-int playNotes(int fret[], int hold[], int length)
+int playNotes(int *fret, int *hold, int length)
 {
 	int direction = 1;
 
@@ -61,12 +79,55 @@ int playNotes(int fret[], int hold[], int length)
 	{
 		setAndPlayFret(fret[note], direction);
 
-		wait1Msec[hold[note]*TIME_UNIT];
+		wait1Msec(hold[note]*TIME_UNIT);
 
 		direction *= -1;
 	}
 
 	return direction;
+}
+
+int readSheet(int * Times, int * Frets)
+{
+		// start to read in.
+		//	while (!getButtonPress(buttonEnter))
+		//	{}
+
+		int Notes = 0;
+		bool timeRead = false;
+
+		motor[MOTORPORT] = MOTORSPEED;
+
+		for (int count = 0; count < MAXNOTES; count ++)//while(true)
+		{
+			while (SensorValue[COLOURPORT] == (int)colorWhite)
+			{}
+
+			displayString(5, "Not White");
+
+			wait1Msec(WAITCOLOUR);
+
+			if(!timeRead)
+			{
+				Times[Notes] = Remap[colourValues[SensorValue[COLOURPORT]]];
+				timeRead = true;
+			}
+			else
+			{
+				Frets[Notes] = colourValues[SensorValue[COLOURPORT]];
+				timeRead = false;
+				Notes++;
+			}
+
+			while (SensorValue[COLOURPORT] != (int)colorWhite)
+			{}
+
+			displayString(5, "White     ");
+
+			wait1Msec(WAITWHITE);
+	}
+
+	return Notes;
 }
 
 bool endAllTasks(int fret_start, int strum_start, int direction)
@@ -101,10 +162,10 @@ task main()
 		displayTextLine(5, "Startup successful");
 	}
 
-	int fret[ARR_LENGTH] = {-1};
-	int timing[ARR_LENGTH] = {-1};
+	int fret[ARR_LENGTH];
+	int timing[ARR_LENGTH];
 
-	//int const NOTE_COUNT = readSheet();
+	int const NOTE_COUNT = readSheet(timing, fret);
 	displayTextLine(5, "Song loaded");
 
 	int direction = playNotes(fret, timing, NOTE_COUNT);
