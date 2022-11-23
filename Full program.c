@@ -12,6 +12,7 @@ const int WAITCOLOUR = 1000;
 const int WAITWHITE = 50;
 const int MAXNOTES = 10;
 const int MOTORSPEED = -5;
+const int FRET_TIMING = 1000;
 const int colourValues[8] =
 	{
 		0,////empty
@@ -62,6 +63,8 @@ void setAndPlayFret(int fret, int direction)
 	motor[motorD] = 0;
 
 	pluck(direction);
+
+	wait1Msec(FRET_TIMING);
 
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < FULL_ROTATION)

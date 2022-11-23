@@ -1,8 +1,9 @@
 const int STRUMMING_POWER = 20;
 const int FRET_SPEED = -20;
-const int TIME_UNIT = 500;
+const int TIME_UNIT = 2000;
 const int FULL_ROTATION = 360;
 const int FRET_CLICKS = 30;
+const int FRET_TIMING = 1000;
 
 void pluck(int direction)
 {
@@ -27,6 +28,8 @@ void setAndPlayFret(int fret, int direction)
 	motor[motorD] = 0;
 
 	pluck(direction);
+
+	wait1Msec(FRET_TIMING);
 
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < FULL_ROTATION)
@@ -53,8 +56,8 @@ int playNotes(int *fret, int *hold, int length)
 
 task main()
 {
-	int fret[7] = {0, 1, 2, 3, 4, 5, 6};
-	int hold[7] = {0, 1, 2, 3, 4, 5, 6};
+	int fret[5] = {2, 3, 5, 7, 10};
+	int hold[5] = {1, 1, 1, 1, 1};
 
 	playNotes(fret, hold, 7);
 }
