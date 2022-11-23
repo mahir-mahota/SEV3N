@@ -29,8 +29,6 @@ void setAndPlayFret(int fret, int direction)
 
 	pluck(direction);
 
-	wait1Msec(FRET_TIMING);
-
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < FULL_ROTATION)
 	{}
@@ -59,5 +57,5 @@ task main()
 	int fret[5] = {2, 3, 5, 7, 10};
 	int hold[5] = {1, 1, 1, 1, 1};
 
-	playNotes(fret, hold, 7);
+	playNotes(fret, hold, 5);
 }

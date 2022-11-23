@@ -22,8 +22,6 @@ void setAndPlayFret(int fret, int direction)
 
 	pluck(direction);
 
-	wait1Msec(FRET_TIMING);
-
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < FULL_ROTATION)
 	{}
