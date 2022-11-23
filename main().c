@@ -19,7 +19,8 @@ const int WAITCOLOUR = 1000;
 const int WAITWHITE = 50;
 const int MAXNOTES = 10;
 const int MOTORSPEED = -5;
-const int FRET_TIMING = 1000;
+const int FRET_TIMING = 500;
+const int STRUM_ANGLE = 45;
 const int colourValues[8] =
 	{
 		0,////empty

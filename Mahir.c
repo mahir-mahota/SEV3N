@@ -9,12 +9,12 @@ bool endAllTasks(int fret_start, int strum_start, int direction)
 	nMotorEncoder[motorD] = 0;
 
 	motor[motorD] = FRET_SPEED;
-	while(abs(nMotorEncoder[motorD]) < ADJUSTMENT)
+	while(abs(nMotorEncoder[motorD]) < abs(ADJUSTMENT))
 	{}
 	motor[motorD] = 0;
 
 	motor[motorA] = -1 * direction * STRUMMING_POWER;
-	while(abs(nMotorEncoder[motorA]) > strum_start)
+	while(abs(nMotorEncoder[motorA]) < strum_start)
 	{}
 	motor[motorA] = 0;
 

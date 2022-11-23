@@ -12,7 +12,8 @@ const int WAITCOLOUR = 1000;
 const int WAITWHITE = 50;
 const int MAXNOTES = 10;
 const int MOTORSPEED = -5;
-const int FRET_TIMING = 1000;
+const int FRET_TIMING = 500;
+const int STRUM_ANGLE = 45;
 const int colourValues[8] =
 	{
 		0,////empty
@@ -52,26 +53,27 @@ void pluck(int direction)
 	motor[motorA] = 0;
 }
 
-void setAndPlayFret(int fret, int direction)
+void setAndPlayFret(int fret, int time, int direction)
 {
+	int previous_clicks = nMotorEncoder[D];
+	int offset = previous_clicks % 360;
+	int rotation = FULL_ROTATION - offset;
 	int clicksForFret = FRET_CLICKS * (fret - 1);
-	int clicksToRotate = FULL_ROTATION - clicksForFret;
+	int clicksToRotate = rotation - clicksForFret;
+
+	time1[T1] = 0;
 
 	motor[motorD] = FRET_SPEED;
 	while(abs(nMotorEncoder[motorD]) < clicksToRotate)
 	{}
 	motor[motorD] = 0;
 
+	while(time1[T1] < time * TIME_UNIT - FRET_TIMING)
+	{}
+
 	pluck(direction);
 
 	wait1Msec(FRET_TIMING);
-
-	motor[motorD] = FRET_SPEED;
-	while(abs(nMotorEncoder[motorD]) < FULL_ROTATION)
-	{}
-	motor[motorD] = 0;
-
-	nMotorEncoder[motorD] = 0;
 }
 
 int playNotes(int *fret, int *hold, int length)
@@ -144,12 +146,12 @@ bool endAllTasks(int fret_start, int strum_start, int direction)
 	nMotorEncoder[motorD] = 0;
 
 	motor[motorD] = FRET_SPEED;
-	while(abs(nMotorEncoder[motorD]) < ADJUSTMENT)
+	while(abs(nMotorEncoder[motorD]) < abs(ADJUSTMENT))
 	{}
 	motor[motorD] = 0;
 
 	motor[motorA] = -1 * direction * STRUMMING_POWER;
-	while(abs(nMotorEncoder[motorA]) > strum_start)
+	while(abs(nMotorEncoder[motorA]) < strum_start)
 	{}
 	motor[motorA] = 0;
 

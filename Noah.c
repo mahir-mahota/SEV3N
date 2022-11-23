@@ -12,18 +12,15 @@ bool startAllTasks(int ultrasonic, int colour)
 	return true;
 }
 
-int playNotes(int fret[], int hold[], int length)
+int playNotes(int *fret, int *hold, int length)
 {
 	int direction = 1;
 
 	for(int note = 0; note < length; note++)
 	{
-		setAndPlayFret(fret[note], direction);
-
-		wait1Msec[hold[note]*TIME_UNIT];
+		setAndPlayFret(fret[note], hold[note], direction);
 
 		direction *= -1;
 	}
-
 	return direction;
 }
