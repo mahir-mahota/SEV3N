@@ -29,7 +29,7 @@ void setAndPlayFret(int fret, int time, int direction)
 	{}
 	motor[motorD] = 0;
 
-	while(time1[T1] < hold * TIME_UNIT - FRET_TIMING)
+	while(time1[T1] < time * TIME_UNIT - FRET_TIMING)
 	{}
 
 	pluck(direction);
@@ -52,7 +52,7 @@ int playNotes(int *fret, int *hold, int length)
 
 		direction *= -1;
 	}
-	
+
 	return direction;
 }
 
