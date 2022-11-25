@@ -1,5 +1,5 @@
 const int STRUMMING_POWER = 80;
-const int FRET_SPEED = -100;
+const int FRET_SPEED = -10;
 const int TIME_UNIT = 2000;
 const int FULL_ROTATION = 360;
 const int FRET_CLICKS = 30;
@@ -42,6 +42,8 @@ void setAndPlayFret(int fret, int time, int direction, int previous_fret)
 	//while(abs(nMotorEncoder[motorD]) < abs(clicksToRotate))
 	//{}
 	motor[motorD] = 0;
+
+	displayString("%d",cycleEncoderValue());
 
 	while(time1[T1] < time * TIME_UNIT - FRET_TIMING)
 	{}
